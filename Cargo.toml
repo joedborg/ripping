@@ -1,8 +1,12 @@
 [package]
 name = "ripping"
-version = "0.1.0"
+description = "Ripping is the ping toolbox"
+version = "0.1.1"
 authors = ["Joe Borg <joe@josephb.org>"]
 edition = "2018"
+license = "Apache-2.0"
+homepage = "https://josephb.org"
+repository = "https://github.com/joedborg/ripping"
 
 [dependencies]
 oping = "0.3.3"
