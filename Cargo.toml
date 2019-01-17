@@ -1,0 +1,10 @@
+[package]
+name = "ripping"
+version = "0.1.0"
+authors = ["Joe Borg <joe@josephb.org>"]
+edition = "2018"
+
+[dependencies]
+oping = "0.3.3"
+clap = "2.32.0"
+cast = "0.2.2"
