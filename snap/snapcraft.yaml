@@ -1,0 +1,20 @@
+name: ripping
+version: git
+summary: Ping toolbox
+description: |
+  Ripping is a ping toolbox.
+
+grade: stable
+confinement: strict
+
+apps:
+  ripping:
+    command: ripping
+    plugs:
+      - network
+
+parts:
+  ripping:
+    source: .
+    plugin: rust
+    build-attributes: [no-system-libraries]
