@@ -1,14 +1,21 @@
 [package]
 name = "ripping"
 description = "Ripping is the ping toolbox"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Joe Borg <joe@josephb.org>"]
 edition = "2018"
 license = "Apache-2.0"
 homepage = "https://josephb.org"
 repository = "https://github.com/joedborg/ripping"
+readme = "README.md"
 
 [dependencies]
 oping = "0.3.3"
 clap = "2.32.0"
 cast = "0.2.2"
+
+[profile.release]
+opt-level = 3
+
+[badges]
+travis-ci = { repository = "joedborg/ripping", branch = "master" }
