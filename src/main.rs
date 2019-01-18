@@ -16,12 +16,14 @@ fn main() {
             std::process::exit(1);
         });
 
-    let host = matches.value_of("host")
-        .unwrap();
+    let plot = matches.is_present("plot");
+
+    let host = matches.value_of("host").unwrap();
 
     ping::run(
         host,
         number,
-        timeout
+        timeout,
+        plot
     );
 }

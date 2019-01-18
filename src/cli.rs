@@ -27,6 +27,13 @@ pub fn main<'a>() -> clap::ArgMatches<'a> {
                 .default_value("5")
         )
         .arg(
+            Arg::with_name("plot")
+                .long("plot")
+                .short("p")
+                .help("Show latency plot")
+                .takes_value(false)
+        )
+        .arg(
             Arg::with_name("host")
                 .index(1)
                 .required(true)

@@ -3,6 +3,7 @@ extern crate cast;
 use std::io;
 use std::io::prelude::*;
 use oping::{Ping, PingItem};
+use textplots::{Chart, Plot, Shape};
 
 struct PingRunResult {
     total: u64,
@@ -21,7 +22,7 @@ fn ping(host: &str, timeout: f64) -> PingItem {
     return responses.last().unwrap();
 }
 
-fn average(responses: Vec<PingItem>) -> PingRunResult {
+fn average(responses: &Vec<PingItem>) -> PingRunResult {
     let mut result = PingRunResult{
         total: 0,
         succeeded: 0,
@@ -58,7 +59,26 @@ fn average(responses: Vec<PingItem>) -> PingRunResult {
     return result;
 }
 
-fn report(result: PingRunResult) {
+fn plot(responses: &Vec<PingItem>) {
+    let mut seq: f32 = 0.0;
+    let mut points: Vec<(f32, f32)> = Vec::new();
+
+    for response in responses {
+        seq += 1.0;
+
+        points.push(
+            (seq, cast::f32(response.latency_ms).unwrap())
+        )
+    }
+
+    println!("");
+    Chart::new(80, 80, 0.0, seq)
+        .lineplot(Shape::Lines(&points[..]))
+        .display();
+    println!("");
+}
+
+fn report(result: &PingRunResult) {
     let percent_succeeded: f64 = 
         cast::f64(result.succeeded) / cast::f64(result.total) * 100.0;
 
@@ -72,7 +92,7 @@ fn report(result: PingRunResult) {
     );
 }
 
-pub fn run(host: &str, number: u32, timeout: f64) {
+pub fn run(host: &str, number: u32, timeout: f64, draw_plot: bool) {
     let mut responses: Vec<PingItem> = Vec::new();
     for _ in 0..number {
         let response = ping(host, timeout);
@@ -88,6 +108,9 @@ pub fn run(host: &str, number: u32, timeout: f64) {
     }
     println!("");
 
-    let result = average(responses);
-    report(result);
+    let result = average(&responses);
+    if draw_plot{
+        plot(&responses);
+    }
+    report(&result);
 }
