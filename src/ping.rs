@@ -113,3 +113,49 @@ pub fn run(host: &str, number: u32, timeout: f64, draw_plot: bool) {
     }
     report(&result);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use oping::AddrFamily;
+
+    #[test]
+    fn test_ping() {
+        let host = "127.0.0.1";
+        let response = ping(host, 0.1);
+        assert_eq!(response.address, host);
+    }
+
+    #[test]
+    fn test_average() {
+        let mut responses: Vec<PingItem> = Vec::new();
+        responses.push(PingItem {
+            address: "127.0.0.1".to_string(),
+            hostname: "127.0.0.1".to_string(),
+            dropped: 0,
+            latency_ms: 0.1,
+            family: AddrFamily::IPV4,
+            recv_qos: 0,
+            recv_ttl: 0,
+            seq: 0
+        });
+        responses.push(PingItem {
+            address: "127.0.0.1".to_string(),
+            hostname: "127.0.0.1".to_string(),
+            dropped: 1,
+            latency_ms: 0.3,
+            family: AddrFamily::IPV4,
+            recv_qos: 0,
+            recv_ttl: 0,
+            seq: 0
+        });
+
+        let result = average(&responses);
+        assert_eq!(result.average_latency, 0.2);
+        assert_eq!(result.succeeded, 1);
+        assert_eq!(result.failed, 1);
+        assert_eq!(result.max_latency, 0.3);
+        assert_eq!(result.min_latency, 0.1);
+        assert_eq!(result.total, 2);
+    }
+}

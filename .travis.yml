@@ -1,3 +1,5 @@
+dist: bionic
+sudo: true
 language: rust
 rust:
   - stable
@@ -10,4 +12,4 @@ matrix:
 cache: cargo
 script:
   - cargo build --verbose --all
-  - cargo test --verbose --all
+  - sudo /home/travis/.cargo/bin/cargo test --verbose --all
