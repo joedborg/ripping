@@ -64,15 +64,14 @@ fn plot(responses: &Vec<PingItem>) {
     let mut points: Vec<(f32, f32)> = Vec::new();
 
     for response in responses {
-        seq += 1.0;
-
         points.push(
             (seq, cast::f32(response.latency_ms).unwrap())
-        )
+        );
+        seq += 1.0;
     }
 
     println!("");
-    Chart::new(80, 80, 0.0, seq)
+    Chart::new(120, 120, 0.0, seq)
         .lineplot(Shape::Lines(&points[..]))
         .display();
     println!("");
