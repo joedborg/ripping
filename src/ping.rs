@@ -1,5 +1,7 @@
 extern crate cast;
 
+use std::io;
+use std::io::prelude::*;
 use oping::{Ping, PingItem};
 
 struct PingRunResult {
@@ -43,7 +45,9 @@ fn average(responses: Vec<PingItem>) -> PingRunResult {
         }
 
         if response.latency_ms < result.min_latency || result.min_latency == 0.0 {
-            result.min_latency = response.latency_ms;
+            if response.latency_ms > 0.0 {
+                result.min_latency = response.latency_ms;
+            }
         }
 
         result.average_latency += response.latency_ms;
@@ -74,10 +78,11 @@ pub fn run(host: &str, number: u32, timeout: f64) {
         let response = ping(host, timeout);
 
         if response.dropped == 1 {
-            print!(".")
+            print!(".");
         } else {
-            print!("!")
+            print!("!");
         }
+        io::stdout().flush().unwrap();
 
         responses.push(response);
     }
