@@ -2,6 +2,8 @@
 
 `ripping` is a ping toolbox, currently under development.
 
+[![Build Status](https://travis-ci.org/joedborg/ripping.svg?branch=master)](https://travis-ci.org/joedborg/ripping)
+
 ## Installation
 
 Install with `cargo install ripping`.
