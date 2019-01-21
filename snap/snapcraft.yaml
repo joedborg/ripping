@@ -11,7 +11,7 @@ apps:
   ripping:
     command: ripping
     plugs:
-      - network
+      - network-observe
 
 parts:
   ripping:
