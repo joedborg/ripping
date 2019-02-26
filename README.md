@@ -6,6 +6,16 @@
 
 ## Installation
 
+### Snap
+
+Install with Snap.
+```
+sudo snap install --edge ripping
+sudo snap connect ripping:network-observe
+```
+
+### Cargo
+
 Install with `cargo install ripping`.
 
 ## Running
