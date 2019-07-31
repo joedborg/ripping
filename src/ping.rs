@@ -1,5 +1,3 @@
-extern crate cast;
-
 use std::io;
 use std::io::prelude::*;
 use oping::{Ping, PingItem};
