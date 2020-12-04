@@ -70,7 +70,7 @@ fn plot(responses: &Vec<PingItem>) {
 
     println!("");
     Chart::new(120, 120, 0.0, seq)
-        .lineplot(Shape::Lines(&points[..]))
+        .lineplot(&Shape::Lines(&points[..]))
         .display();
     println!("");
 }
