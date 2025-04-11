@@ -1,7 +1,7 @@
-use clap::{App, Arg};
 pub use clap::value_t;
+use clap::{App, Arg};
 
-pub fn main<'a>() -> clap::ArgMatches<'a> {
+pub fn main() -> clap::ArgMatches {
     let app = App::new("ripping")
         .about(
             "\
@@ -13,32 +13,32 @@ pub fn main<'a>() -> clap::ArgMatches<'a> {
         .arg(
             Arg::with_name("number")
                 .long("number")
-                .short("n")
+                .short('n')
                 .help("Number of pings to send")
                 .takes_value(true)
-                .default_value("3")
+                .default_value("3"),
         )
         .arg(
             Arg::with_name("timeout")
                 .long("timeout")
-                .short("t")
+                .short('t')
                 .help("Timeout of the pings")
                 .takes_value(true)
-                .default_value("5")
+                .default_value("5"),
         )
         .arg(
             Arg::with_name("plot")
                 .long("plot")
-                .short("p")
+                .short('p')
                 .help("Show latency plot")
-                .takes_value(false)
+                .takes_value(false),
         )
         .arg(
             Arg::with_name("host")
                 .index(1)
                 .required(true)
                 .help("Host to send pings at")
-                .takes_value(true)
+                .takes_value(true),
         );
 
     return app.get_matches();

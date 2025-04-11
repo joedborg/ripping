@@ -1,6 +1,6 @@
+use oping::{Ping, PingItem};
 use std::io;
 use std::io::prelude::*;
-use oping::{Ping, PingItem};
 use textplots::{Chart, Plot, Shape};
 
 struct PingRunResult {
@@ -9,7 +9,7 @@ struct PingRunResult {
     failed: u64,
     max_latency: f64,
     min_latency: f64,
-    average_latency: f64
+    average_latency: f64,
 }
 
 fn ping(host: &str, timeout: f64) -> PingItem {
@@ -21,13 +21,13 @@ fn ping(host: &str, timeout: f64) -> PingItem {
 }
 
 fn average(responses: &Vec<PingItem>) -> PingRunResult {
-    let mut result = PingRunResult{
+    let mut result = PingRunResult {
         total: 0,
         succeeded: 0,
         failed: 0,
         max_latency: 0.0,
         min_latency: 0.0,
-        average_latency: 0.0
+        average_latency: 0.0,
     };
 
     for response in responses {
@@ -62,9 +62,7 @@ fn plot(responses: &Vec<PingItem>) {
     let mut points: Vec<(f32, f32)> = Vec::new();
 
     for response in responses {
-        points.push(
-            (seq, cast::f32(response.latency_ms).unwrap())
-        );
+        points.push((seq, cast::f32(response.latency_ms).unwrap()));
         seq += 1.0;
     }
 
@@ -76,8 +74,7 @@ fn plot(responses: &Vec<PingItem>) {
 }
 
 fn report(result: &PingRunResult) {
-    let percent_succeeded: f64 = 
-        cast::f64(result.succeeded) / cast::f64(result.total) * 100.0;
+    let percent_succeeded: f64 = cast::f64(result.succeeded) / cast::f64(result.total) * 100.0;
 
     println!(
         "Total: {}, Succeeded: {}, Failed: {}, %: {:.3}",
@@ -106,7 +103,7 @@ pub fn run(host: &str, number: u32, timeout: f64, draw_plot: bool) {
     println!("");
 
     let result = average(&responses);
-    if draw_plot{
+    if draw_plot {
         plot(&responses);
     }
     report(&result);
@@ -135,7 +132,7 @@ mod tests {
             family: AddrFamily::IPV4,
             recv_qos: 0,
             recv_ttl: 0,
-            seq: 0
+            seq: 0,
         });
         responses.push(PingItem {
             address: "127.0.0.1".to_string(),
@@ -145,7 +142,7 @@ mod tests {
             family: AddrFamily::IPV4,
             recv_qos: 0,
             recv_ttl: 0,
-            seq: 0
+            seq: 0,
         });
 
         let result = average(&responses);

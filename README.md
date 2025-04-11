@@ -9,12 +9,21 @@
 ### Snap
 
 Install with Snap.
+
 ```
 sudo snap install --edge ripping
 sudo snap connect ripping:network-observe
 ```
 
 ### Cargo
+
+#### Prerequisites
+
+If building on MacOS, you'll need to install liboping first.
+
+```bash
+brew install liboping
+```
 
 Install with `cargo install ripping`.
 
@@ -38,25 +47,25 @@ $ sudo ripping -p -n 20 8.8.8.8
 !!!!!!!!!!!!!!!!!!!!
 
 ⡁ ⠉⠉⡆                                     5.9
-⠄   ⡇                                    
-⠂   ⡇      ⢠⡆                            
-⡁   ⡇      ⢸⡇                            
-⠄   ⢣      ⢸⡇                            
-⠂   ⢸      ⢸⡇                            
-⡁   ⢸      ⡎⢇                            
-⠄   ⢸      ⡇⢸                            
-⠂   ⠸⡀     ⡇⢸                            
-⡁    ⡇     ⡇⢸                            
-⠄    ⡇    ⢸ ⢸                            
-⠂    ⡇    ⢸ ⠈⡆                           
-⡁    ⡇    ⢸  ⡇              ⣀⣀⡀  ⡰⡇      
-⠄    ⢸    ⡸  ⡇             ⢸  ⠑⡄⡰⠁⢱      
+⠄   ⡇
+⠂   ⡇      ⢠⡆
+⡁   ⡇      ⢸⡇
+⠄   ⢣      ⢸⡇
+⠂   ⢸      ⢸⡇
+⡁   ⢸      ⡎⢇
+⠄   ⢸      ⡇⢸
+⠂   ⠸⡀     ⡇⢸
+⡁    ⡇     ⡇⢸
+⠄    ⡇    ⢸ ⢸
+⠂    ⡇    ⢸ ⠈⡆
+⡁    ⡇    ⢸  ⡇              ⣀⣀⡀  ⡰⡇
+⠄    ⢸    ⡸  ⡇             ⢸  ⠑⡄⡰⠁⢱
 ⠂    ⢸    ⡇  ⡇             ⡎   ⠈⠃ ⠘⡄ ⡰⠉⠒⠄
-⡁    ⢸    ⡇  ⢇       ⢰⢇   ⢀⠇       ⢇⢠⠃   
-⠄    ⢸    ⡇  ⢸ ⢠⠢⡀   ⡎⠈⢆  ⢸        ⠸⡎    
-⠂     ⠑⢄ ⡠⠃  ⢸ ⡎ ⠈⡆ ⢠⠃ ⠈⠢⡀⡇              
-⡁       ⠉    ⢸⢰⠁  ⠘⡄⡜    ⠈⠃              
-⠄            ⢸⡎    ⠘⠇                    
+⡁    ⢸    ⡇  ⢇       ⢰⢇   ⢀⠇       ⢇⢠⠃
+⠄    ⢸    ⡇  ⢸ ⢠⠢⡀   ⡎⠈⢆  ⢸        ⠸⡎
+⠂     ⠑⢄ ⡠⠃  ⢸ ⡎ ⠈⡆ ⢠⠃ ⠈⠢⡀⡇
+⡁       ⠉    ⢸⢰⠁  ⠘⡄⡜    ⠈⠃
+⠄            ⢸⡎    ⠘⠇
 ⠁⠈ ⠁⠈ ⠁⠈ ⠁⠈ ⠁⠈⠁⠁⠈ ⠁⠈ ⠁⠈ ⠁⠈ ⠁⠈ ⠁⠈ ⠁⠈ ⠁⠈ ⠁  4.2
 0.0                                  20.0
 
