@@ -16,7 +16,10 @@ fn ping(host: &str, timeout: f64) -> PingItem {
     let mut ping = Ping::new();
     ping.set_timeout(timeout).unwrap();
     ping.add_host(host).unwrap();
-    let responses = ping.send().unwrap();
+    let responses = ping.send().unwrap_or_else(|_| {
+        println!("Cannot send ping.  Try running with `sudo`.");
+        std::process::exit(1);
+    });
     return responses.last().unwrap();
 }
 

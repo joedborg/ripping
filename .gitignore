@@ -15,3 +15,6 @@ prime/
 stage/
 .snapcraft/
 *.snap
+
+# VSCode
+.vscode/
