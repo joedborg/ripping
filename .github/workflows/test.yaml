@@ -17,4 +17,4 @@ jobs:
           sudo apt-get install liboping-dev -y
 
       - name: Run tests
-        run: cargo test --verbose
+        run: sudo cargo test --verbose
