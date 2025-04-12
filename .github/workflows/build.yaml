@@ -25,6 +25,9 @@ jobs:
       - name: Install cross
         run: cargo install cross
 
+      - name: Install target
+        run: rustup target add ${{ matrix.target }}
+
       - name: Build with cross
         run: cross build --release --target ${{ matrix.target }}
 
