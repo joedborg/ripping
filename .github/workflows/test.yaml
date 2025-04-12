@@ -19,4 +19,4 @@ jobs:
       - name: Run tests
         run: |
           sudo /home/runner/.cargo/bin/rustup default stable
-          sudo cargo test --verbose
+          sudo /home/runner/.cargo/bin/cargo test --verbose
