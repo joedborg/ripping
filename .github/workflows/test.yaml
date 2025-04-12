@@ -18,4 +18,4 @@ jobs:
 
       - name: Run tests
         run: |
-          sudo PATH=${PATH} cargo --verbose
+          sudo /home/runner/.cargo/bin/cargo --verbose
