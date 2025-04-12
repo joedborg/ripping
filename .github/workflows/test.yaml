@@ -18,5 +18,4 @@ jobs:
 
       - name: Run tests
         run: |
-          which cargo
-          sudo cargo test --verbose
+          sudo PATH=${PATH} cargo --verbose
