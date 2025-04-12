@@ -1,6 +1,8 @@
 use oping::{Ping, PingItem};
+use std::convert::TryInto;
 use std::io;
 use std::io::prelude::*;
+use term_size::dimensions;
 use textplots::{Chart, Plot, Shape};
 
 struct PingRunResult {
@@ -63,6 +65,10 @@ fn average(responses: &Vec<PingItem>) -> PingRunResult {
 fn plot(responses: &Vec<PingItem>) {
     let mut seq: f32 = 0.0;
     let mut points: Vec<(f32, f32)> = Vec::new();
+    let (w, _h) = dimensions().unwrap();
+    let mut width: u32 = w.try_into().unwrap();
+    width *= 2;
+    width -= 14;
 
     for response in responses {
         points.push((seq, cast::f32(response.latency_ms).unwrap()));
@@ -70,7 +76,7 @@ fn plot(responses: &Vec<PingItem>) {
     }
 
     println!("");
-    Chart::new(120, 120, 0.0, seq)
+    Chart::new(width, 120, 0.0, seq)
         .lineplot(&Shape::Lines(&points[..]))
         .display();
     println!("");
