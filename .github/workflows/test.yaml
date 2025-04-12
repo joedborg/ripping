@@ -11,5 +11,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: |
+            apt update
+            apt install liboping-dev -y
+
       - name: Run tests
         run: cargo test --verbose
