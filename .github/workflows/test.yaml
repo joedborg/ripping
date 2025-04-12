@@ -13,8 +13,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-            apt update
-            apt install liboping-dev -y
+          sudo apt-get update
+          sudo apt-get install liboping-dev -y
 
       - name: Run tests
         run: cargo test --verbose
