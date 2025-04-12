@@ -1,4 +1,4 @@
-name: Test and Build
+name: Build
 
 on:
   workflow_dispatch:
@@ -27,6 +27,11 @@ jobs:
 
       - name: Install target
         run: rustup target add ${{ matrix.target }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install liboping-dev -y
 
       - name: Build with cross
         run: cross build --release --target ${{ matrix.target }}
