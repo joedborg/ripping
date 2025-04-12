@@ -18,4 +18,5 @@ jobs:
 
       - name: Run tests
         run: |
+          sudo /home/runner/.cargo/bin/rustup default stable
           sudo /home/runner/.cargo/bin/cargo --verbose
