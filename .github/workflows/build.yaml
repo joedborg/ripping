@@ -8,10 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/workflows/test.yaml@main
+    uses: ./.github/workflows/test.yaml
 
   build:
     needs: test
