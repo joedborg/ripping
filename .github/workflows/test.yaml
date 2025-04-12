@@ -19,7 +19,7 @@ jobs:
       - name: Run tests
         run: |
           sudo bash -c "
-            export PATH=\"/home/runner/.cargo/bin:${PATH}\";
-            rustup default stable;
-            cargo test;
+            export PATH=\"/home/runner/.cargo/bin:${PATH}\"
+            rustup default stable
+            cargo test --verbose
           "
