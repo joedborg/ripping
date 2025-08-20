@@ -22,9 +22,17 @@ pub fn main() -> clap::ArgMatches {
             Arg::with_name("timeout")
                 .long("timeout")
                 .short('t')
-                .help("Timeout of the pings")
+                .help("Timeout of the pings in ms")
                 .takes_value(true)
-                .default_value("5"),
+                .default_value("5000"),
+        )
+        .arg(
+            Arg::with_name("size")
+                .long("size")
+                .short('s')
+                .help("Size of the pings")
+                .takes_value(true)
+                .default_value("56"),
         )
         .arg(
             Arg::with_name("plot")

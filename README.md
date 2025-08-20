@@ -17,14 +17,6 @@ sudo snap connect ripping:network-observe
 
 ### Cargo
 
-#### Prerequisites
-
-If building on MacOS, you'll need to install liboping first.
-
-```bash
-brew install liboping
-```
-
 Install with `cargo install ripping`.
 
 ## Running
