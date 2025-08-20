@@ -201,11 +201,11 @@ fn report(result: &PingRunResult) {
     let percent_succeeded: f64 = cast::f64(result.succeeded) / cast::f64(result.total) * 100.0;
 
     println!(
-        "Total: {}, Succeeded: {}, Failed: {}, %: {:.3}",
+        "Total: {}, Succeeded: {}, Failed: {}, %: {:.2}",
         result.total, result.succeeded, result.failed, percent_succeeded
     );
     println!(
-        "Max: {:.3} ms, Min: {:.3} ms, Avg: {:.3} ms",
+        "Max: {} ms, Min: {} ms, Avg: {} ms",
         result.max_latency, result.min_latency, result.average_latency
     );
 }
