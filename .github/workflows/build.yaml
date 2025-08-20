@@ -8,9 +8,11 @@ on:
 
 jobs:
   test:
+    name: Test
     uses: ./.github/workflows/test.yaml
 
   build:
+    name: Build
     needs: test
     runs-on: ubuntu-latest
     strategy:

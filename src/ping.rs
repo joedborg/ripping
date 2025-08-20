@@ -205,7 +205,7 @@ fn report(result: &PingRunResult) {
         result.total, result.succeeded, result.failed, percent_succeeded
     );
     println!(
-        "Max: {:.3}, Min: {:.3}, Avg: {:.3}",
+        "Max: {:.3} ms, Min: {:.3} ms, Avg: {:.3} ms",
         result.max_latency, result.min_latency, result.average_latency
     );
 }
