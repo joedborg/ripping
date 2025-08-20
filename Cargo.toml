@@ -12,7 +12,7 @@ readme = "README.md"
 [dependencies]
 cast = "0.3.0"
 clap = "3.2.25"
-oping = "0.4.0"
+socket2 = { features = ["all"], version = "0.5.10" }
 term_size = "0.3.2"
 textplots = "0.8.7"
 

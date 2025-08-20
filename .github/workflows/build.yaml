@@ -29,16 +29,6 @@ jobs:
       - name: Install target
         run: rustup target add ${{ matrix.target }}
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            liboping-dev \
-            pkg-config
-
-      - name: Set PKG_CONFIG for cross-compiling
-        run: export PKG_CONFIG=$(which pkg-config)
-
       - name: Build with cross
         run: cross build --release --target ${{ matrix.target }}
 
