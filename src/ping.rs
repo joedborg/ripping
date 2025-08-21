@@ -76,19 +76,17 @@ fn ping(host: &str, timeout: u64, size: u64) -> PingResult {
     // Create raw ICMP socket based on IP version
     let (socket, _domain, _protocol) = match ip {
         IpAddr::V4(_) => {
-            let socket = Socket::new_raw(Domain::IPV4, Type::RAW, Some(Protocol::ICMPV4))
-                .unwrap_or_else(|_| {
-                    println!("Failed to create IPv4 socket. You may need to run with `sudo`.");
-                    std::process::exit(1);
-                });
+            let socket = Socket::new_raw(Domain::IPV4, Type::RAW, Some(Protocol::ICMPV4)).unwrap_or_else(|_| {
+                println!("Failed to create IPv4 socket. You may need to run with `sudo`.");
+                std::process::exit(1);
+            });
             (socket, Domain::IPV4, Protocol::ICMPV4)
         }
         IpAddr::V6(_) => {
-            let socket = Socket::new_raw(Domain::IPV6, Type::RAW, Some(Protocol::ICMPV6))
-                .unwrap_or_else(|_| {
+            let socket = Socket::new_raw(Domain::IPV6, Type::RAW, Some(Protocol::ICMPV6)).unwrap_or_else(|_| {
                     println!("Failed to create IPv6 socket. You may need to run with `sudo`.");
                     std::process::exit(1);
-                });
+            });
             (socket, Domain::IPV6, Protocol::ICMPV6)
         }
     };
