@@ -1,11 +1,15 @@
 name: ripping
 version: git
+version-script: |
+  git describe --tags --abbrev=0
 summary: Ping toolbox
 description: |
   Ripping is a ping toolbox.
 
 grade: stable
 confinement: strict
+type: app
+base: core22
 
 apps:
   ripping:
@@ -17,4 +21,3 @@ parts:
   ripping:
     source: .
     plugin: rust
-    build-attributes: [no-system-libraries]
