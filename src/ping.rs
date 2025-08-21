@@ -111,12 +111,7 @@ fn ping(host: &str, timeout: u64, size: u64) -> PingResult {
     // Send packet
     let start_time = Instant::now();
     let addr = std::net::SocketAddr::new(ip, 0);
-    if socket.send_to(&packet, &addr.into()).is_err() {
-        return PingResult {
-            dropped: true,
-            latency_ms: timeout,
-        };
-    }
+    socket.send_to(&packet, &addr.into()).unwrap();
 
     // Receive reply
     let mut buffer = [std::mem::MaybeUninit::<u8>::uninit(); 1024];

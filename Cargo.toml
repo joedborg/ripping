@@ -1,7 +1,7 @@
 [package]
 name = "ripping"
 description = "Ripping is the ping toolbox"
-version = "0.2.0"
+version = "0.5.0"
 authors = ["Joe Borg <joe@josephb.org>"]
 edition = "2018"
 license = "Apache-2.0"
@@ -12,12 +12,9 @@ readme = "README.md"
 [dependencies]
 cast = "0.3.0"
 clap = "3.2.25"
-socket2 = { features = ["all"], version = "0.5.10" }
+socket2 = { features = ["all"], version = "0.6.0" }
 term_size = "0.3.2"
 textplots = "0.8.7"
 
 [profile.release]
 opt-level = 3
-
-[badges]
-travis-ci = { repository = "joedborg/ripping", branch = "master" }
