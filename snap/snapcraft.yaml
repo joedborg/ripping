@@ -20,7 +20,6 @@ parts:
   ripping:
     source: .
     plugin: rust
-    parse-info: [usr/bin/ripping]
     override-pull: |
       craftctl default
       craftctl set version="$(git describe --tags --abbrev=0)"
