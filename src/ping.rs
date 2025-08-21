@@ -220,7 +220,7 @@ pub fn run(host: &str, number: u64, timeout: u64, size: u64, draw_plot: bool) {
         } else {
             print!("!");
         }
-        io::stdout().flush().expect("Failed to flush stdout");
+        io::stdout().flush().unwrap();
 
         responses.push(response);
     }
