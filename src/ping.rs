@@ -316,6 +316,7 @@ pub fn run(host: &str, number: u64, timeout: u64, size: u64, draw_plot: bool) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::net::{Ipv4Addr, Ipv6Addr};
 
     #[test]
     fn test_average() {
@@ -335,5 +336,180 @@ mod tests {
         assert_eq!(result.max_latency, 300);
         assert_eq!(result.min_latency, 100);
         assert_eq!(result.total, 2);
+    }
+
+    #[test]
+    fn test_resolve_host_ipv4() {
+        let result = resolve_host("127.0.0.1");
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap(), IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)));
+    }
+
+    #[test]
+    fn test_resolve_host_ipv6() {
+        let result = resolve_host("::1");
+        assert!(result.is_ok());
+        assert_eq!(
+            result.unwrap(),
+            IpAddr::V6(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1))
+        );
+    }
+
+    #[test]
+    fn test_resolve_host_localhost() {
+        let result = resolve_host("localhost");
+        assert!(result.is_ok());
+        // localhost should resolve to either 127.0.0.1 or ::1
+        let ip = result.unwrap();
+        assert!(
+            ip == IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1))
+                || ip == IpAddr::V6(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1))
+        );
+    }
+
+    #[test]
+    fn test_resolve_host_invalid() {
+        let result = resolve_host("invalid.domain.that.does.not.exist.12345");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_build_icmpv4_packet() {
+        let packet = build_icmpv4_packet(8);
+
+        // Should be 8 (header) + 8 (size) = 16 bytes
+        assert_eq!(packet.len(), 16);
+
+        // Check ICMP header fields
+        assert_eq!(packet[0], 8); // Type: Echo Request
+        assert_eq!(packet[1], 0); // Code: 0
+        assert_eq!(packet[4], 0); // Identifier high byte
+        assert_eq!(packet[5], 1); // Identifier low byte
+        assert_eq!(packet[6], 0); // Sequence high byte
+        assert_eq!(packet[7], 1); // Sequence low byte
+
+        // Check data pattern
+        for i in 8..packet.len() {
+            assert_eq!(packet[i], (i % 256) as u8);
+        }
+
+        // Checksum should be calculated (non-zero)
+        assert!(packet[2] != 0 || packet[3] != 0);
+    }
+
+    #[test]
+    fn test_build_icmpv6_packet() {
+        let packet = build_icmpv6_packet(8);
+
+        // Should be 8 (header) + 8 (size) = 16 bytes
+        assert_eq!(packet.len(), 16);
+
+        // Check ICMPv6 header fields
+        assert_eq!(packet[0], 128); // Type: Echo Request (ICMPv6)
+        assert_eq!(packet[1], 0); // Code: 0
+        assert_eq!(packet[2], 0); // Checksum (calculated by kernel)
+        assert_eq!(packet[3], 0); // Checksum
+        assert_eq!(packet[4], 0); // Identifier high byte
+        assert_eq!(packet[5], 1); // Identifier low byte
+        assert_eq!(packet[6], 0); // Sequence high byte
+        assert_eq!(packet[7], 1); // Sequence low byte
+
+        // Check data pattern
+        for i in 8..packet.len() {
+            assert_eq!(packet[i], (i % 256) as u8);
+        }
+    }
+
+    #[test]
+    fn test_validate_icmpv4_reply_valid() {
+        // Create a mock IPv4 ICMP Echo Reply packet
+        let mut buffer = [std::mem::MaybeUninit::<u8>::uninit(); 1024];
+
+        // Fill IP header (20 bytes) + ICMP header (8 bytes)
+        for i in 0..28 {
+            buffer[i] = std::mem::MaybeUninit::new(0);
+        }
+        // Set ICMP type to Echo Reply (0) at offset 20
+        buffer[20] = std::mem::MaybeUninit::new(0);
+
+        assert!(validate_icmpv4_reply(&buffer, 28));
+    }
+
+    #[test]
+    fn test_validate_icmpv4_reply_invalid_type() {
+        let mut buffer = [std::mem::MaybeUninit::<u8>::uninit(); 1024];
+
+        // Fill IP header (20 bytes) + ICMP header (8 bytes)
+        for i in 0..28 {
+            buffer[i] = std::mem::MaybeUninit::new(0);
+        }
+        // Set ICMP type to something other than Echo Reply
+        buffer[20] = std::mem::MaybeUninit::new(8); // Echo Request instead of Reply
+
+        assert!(!validate_icmpv4_reply(&buffer, 28));
+    }
+
+    #[test]
+    fn test_validate_icmpv4_reply_too_short() {
+        let buffer = [std::mem::MaybeUninit::<u8>::uninit(); 1024];
+
+        // Packet too short (less than 28 bytes)
+        assert!(!validate_icmpv4_reply(&buffer, 20));
+    }
+
+    #[test]
+    fn test_validate_icmpv6_reply_valid() {
+        let mut buffer = [std::mem::MaybeUninit::<u8>::uninit(); 1024];
+
+        // Set ICMPv6 type to Echo Reply (129) at offset 0
+        buffer[0] = std::mem::MaybeUninit::new(129);
+        for i in 1..8 {
+            buffer[i] = std::mem::MaybeUninit::new(0);
+        }
+
+        assert!(validate_icmpv6_reply(&buffer, 8));
+    }
+
+    #[test]
+    fn test_validate_icmpv6_reply_invalid_type() {
+        let mut buffer = [std::mem::MaybeUninit::<u8>::uninit(); 1024];
+
+        // Set ICMPv6 type to something other than Echo Reply
+        buffer[0] = std::mem::MaybeUninit::new(128); // Echo Request instead of Reply
+        for i in 1..8 {
+            buffer[i] = std::mem::MaybeUninit::new(0);
+        }
+
+        assert!(!validate_icmpv6_reply(&buffer, 8));
+    }
+
+    #[test]
+    fn test_validate_icmpv6_reply_too_short() {
+        let buffer = [std::mem::MaybeUninit::<u8>::uninit(); 1024];
+
+        // Packet too short (less than 8 bytes)
+        assert!(!validate_icmpv6_reply(&buffer, 4));
+    }
+
+    #[test]
+    fn test_calculate_icmp_checksum() {
+        // Test with a simple packet
+        let mut packet = vec![8, 0, 0, 0, 0, 1, 0, 1]; // Basic ICMP header
+
+        // Clear checksum field
+        packet[2] = 0;
+        packet[3] = 0;
+
+        let checksum = calculate_icmp_checksum(&packet);
+
+        // Checksum should be non-zero for this packet
+        assert_ne!(checksum, 0);
+
+        // Verify checksum by including it in the packet and recalculating
+        packet[2] = (checksum >> 8) as u8;
+        packet[3] = (checksum & 0xff) as u8;
+
+        let verify_checksum = calculate_icmp_checksum(&packet);
+        assert_eq!(verify_checksum, 0); // Should be 0 when checksum is correct
     }
 }
