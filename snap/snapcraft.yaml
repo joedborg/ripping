@@ -1,7 +1,6 @@
 name: ripping
+adopt-info: ripping
 version: git
-version-script: |
-  git describe --tags --abbrev=0
 summary: Ping toolbox
 description: |
   Ripping is a ping toolbox.
@@ -9,7 +8,7 @@ description: |
 grade: stable
 confinement: strict
 type: app
-base: core22
+base: core24
 
 apps:
   ripping:
@@ -21,3 +20,7 @@ parts:
   ripping:
     source: .
     plugin: rust
+    parse-info: [usr/bin/ripping]
+    override-pull: |
+      craftctl default
+      craftctl set version="$(git describe --tags --abbrev=0)"
