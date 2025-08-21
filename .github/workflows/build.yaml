@@ -54,6 +54,7 @@ jobs:
           path: target/${{ matrix.target }}/release/
 
   release:
+    name: Release
     needs: build
     runs-on: ubuntu-latest
     steps:

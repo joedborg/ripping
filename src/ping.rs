@@ -68,13 +68,10 @@ fn ping(host: &str, timeout: u64, size: u64) -> PingResult {
     let timeout_duration = Duration::from_millis(timeout);
 
     // Resolve the host to an IP address
-    let ip = match resolve_host(host) {
-        Ok(ip) => ip,
-        Err(e) => {
-            println!("{}", e);
-            std::process::exit(1);
-        }
-    };
+    let ip = resolve_host(host).unwrap_or_else(|e| {
+        println!("{}", e);
+        std::process::exit(1);
+    });
 
     // Create raw ICMP socket based on IP version
     let (socket, _domain, _protocol) = match ip {
