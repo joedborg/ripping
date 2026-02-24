@@ -35,21 +35,27 @@ jobs:
           - target: x86_64-unknown-linux-gnu
             runner: ubuntu-24.04
             binary: ripping
+            binary-name: ripping-x86_64-unknown-linux-gnu
           - target: aarch64-unknown-linux-gnu
             runner: ubuntu-24.04-arm
             binary: ripping
+            binary-name: ripping-aarch64-unknown-linux-gnu
           - target: x86_64-apple-darwin
             runner: macos-latest
             binary: ripping
+            binary-name: ripping-x86_64-apple-darwin
           - target: aarch64-apple-darwin
             runner: macos-latest
             binary: ripping
+            binary-name: ripping-aarch64-apple-darwin
           - target: x86_64-pc-windows-msvc
             runner: windows-latest
             binary: ripping.exe
+            binary-name: ripping-x86_64-pc-windows-msvc.exe
           - target: aarch64-pc-windows-msvc
             runner: windows-latest
             binary: ripping.exe
+            binary-name: ripping-aarch64-pc-windows-msvc.exe
     steps:
       - uses: actions/checkout@v4
 
@@ -59,11 +65,15 @@ jobs:
       - name: Build
         run: cargo build --release --target ${{ matrix.target }}
 
+      - name: Rename binary
+        shell: bash
+        run: mv target/${{ matrix.target }}/release/${{ matrix.binary }} target/${{ matrix.target }}/release/${{ matrix.binary-name }}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/${{ matrix.binary }}
+          path: target/${{ matrix.target }}/release/${{ matrix.binary-name }}
 
   release:
     name: Release
