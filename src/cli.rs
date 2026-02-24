@@ -1,53 +1,46 @@
-pub use clap::value_t;
-use clap::{App, Arg};
+use clap::{Arg, Command};
 
 pub fn main() -> clap::ArgMatches {
-    let app = App::new("ripping")
-        .about(
-            "\
-                Ripping is the ping toolbox.\
-            ",
-        )
+    Command::new("ripping")
+        .about("Ripping is the ping toolbox.")
         .author("Joe Borg <joe@josephb.org>")
         .version(env!("CARGO_PKG_VERSION"))
         .arg(
-            Arg::with_name("number")
+            Arg::new("number")
                 .long("number")
                 .short('n')
                 .help("Number of pings to send")
-                .takes_value(true)
+                .value_parser(clap::value_parser!(u64))
                 .default_value("3"),
         )
         .arg(
-            Arg::with_name("timeout")
+            Arg::new("timeout")
                 .long("timeout")
                 .short('t')
                 .help("Timeout of the pings in ms")
-                .takes_value(true)
+                .value_parser(clap::value_parser!(u64))
                 .default_value("5000"),
         )
         .arg(
-            Arg::with_name("size")
+            Arg::new("size")
                 .long("size")
                 .short('s')
                 .help("Size of the pings")
-                .takes_value(true)
+                .value_parser(clap::value_parser!(u64))
                 .default_value("56"),
         )
         .arg(
-            Arg::with_name("plot")
+            Arg::new("plot")
                 .long("plot")
                 .short('p')
                 .help("Show latency plot")
-                .takes_value(false),
+                .action(clap::ArgAction::SetTrue),
         )
         .arg(
-            Arg::with_name("host")
+            Arg::new("host")
                 .index(1)
                 .required(true)
-                .help("Host to send pings at")
-                .takes_value(true),
-        );
-
-    return app.get_matches();
+                .help("Host to send pings at"),
+        )
+        .get_matches()
 }

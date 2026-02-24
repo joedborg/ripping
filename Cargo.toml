@@ -1,9 +1,9 @@
 [package]
 name = "ripping"
 description = "Ripping is the ping toolbox"
-version = "0.5.0"
+version = "0.6.0"
 authors = ["Joe Borg <joe@josephb.org>"]
-edition = "2018"
+edition = "2024"
 license = "Apache-2.0"
 homepage = "https://josephb.org"
 repository = "https://github.com/joedborg/ripping"
@@ -11,8 +11,8 @@ readme = "README.md"
 
 [dependencies]
 cast = "0.3.0"
-clap = "3.2.25"
-socket2 = { features = ["all"], version = "0.6.0" }
+clap = "4.5.60"
+single-ping = "0.1.0"
 term_size = "0.3.2"
 textplots = "0.8.7"
 
