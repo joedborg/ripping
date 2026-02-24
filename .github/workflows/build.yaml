@@ -14,14 +14,22 @@ jobs:
   snap:
     name: Snap
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            arch: amd64
+          - runner: ubuntu-24.04-arm
+            arch: arm64
     steps:
       - uses: actions/checkout@v4
       - uses: snapcore/action-build@v1
         id: snapcraft
       - uses: actions/upload-artifact@v4
         with:
-          name: snap
+          name: snap-${{ matrix.arch }}
           path: ${{ steps.snapcraft.outputs.snap }}
 
   build:
