@@ -1,9 +1,12 @@
 name: ripping
 adopt-info: ripping
 version: git
+title: Ripping
 summary: Ping toolbox
 description: |
   Ripping is a ping toolbox.
+license: Apache-2.0
+contact: joe@josephb.org
 
 grade: stable
 confinement: strict
@@ -12,7 +15,7 @@ base: core24
 
 apps:
   ripping:
-    command: ripping
+    command: bin/ripping
     plugs:
       - network-observe
 
